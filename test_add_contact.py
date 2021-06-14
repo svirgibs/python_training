@@ -16,7 +16,8 @@ class TestAddContact(unittest.TestCase):
         self.open_home_page(wd)
         self.login(wd, username="admin", password="secret")
         self.init_add_new_contact(wd)
-        self.create_new_contact(wd, Contact(firstname="Denis", middlename="Timurovich", lastname="Iavorskii"))
+        self.create_new_contact(wd, Contact(firstname="Denis", middlename="Timurovich", lastname="Iavorskii",
+                                            address="Moscow", mobile="+79167774455", email="yavorskiy.dt@gmail.com"))
         self.go_to_home_page(wd)
         self.logout(wd)
 
@@ -34,6 +35,12 @@ class TestAddContact(unittest.TestCase):
         wd.find_element_by_name("middlename").send_keys(contact.middlename)
         wd.find_element_by_name("lastname").clear()
         wd.find_element_by_name("lastname").send_keys(contact.lastname)
+        wd.find_element_by_name("address").clear()
+        wd.find_element_by_name("address").send_keys(contact.address)
+        wd.find_element_by_name("mobile").clear()
+        wd.find_element_by_name("mobile").send_keys(contact.mobile)
+        wd.find_element_by_name("email").clear()
+        wd.find_element_by_name("email").send_keys(contact.email)
         # submit
         wd.find_element_by_xpath("(//input[@name='submit'])[2]").click()
 
