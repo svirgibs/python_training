@@ -58,7 +58,7 @@ class ContactHelper:
 
     def init_add_new_contact(self):
         wd = self.app.wd
-        if not (wd.current_url.endswith("/addressbook/") and len(wd.find_elements_by_xpath("//input[@value='Send e-Mail']")) > 0):
+        if not (wd.current_url.endswith("/edit.php") and len(wd.find_elements_by_xpath("//input[@value='Enter']")) > 0):
             wd.find_element_by_link_text("add new").click()
 
     def count(self):
