@@ -21,7 +21,7 @@ class ContactHelper:
 
     def delete_contact_by_index(self, index):
         wd = self.app.wd
-        self.app.open_home_page()
+        self.click_on_home_page()
         self.select_contact_by_index(index)
         # init deletion
         wd.find_element_by_xpath("//input[@value='Delete']").click()
@@ -36,16 +36,19 @@ class ContactHelper:
 
     def modify_contact_by_index(self, index, contact):
         wd = self.app.wd
-        self.app.open_home_page()
-        self.select_contact_by_index(index)
+        self.click_on_home_page()
         # init modify
-        wd.find_element_by_xpath("//img[@alt='Edit']").click()
+        self.select_mod_contact_by_index(index)
         # fill new data
         self.fill_contact_form(contact)
         # submit update
         wd.find_element_by_name("update").click()
         self.return_to_home_page()
         self.contact_cache = None
+
+    def select_mod_contact_by_index(self, index):
+        wd = self.app.wd
+        wd.find_elements_by_xpath("//img[@alt='Edit']")[index].click()
 
     def select_contact_by_index(self, index):
         wd = self.app.wd
@@ -85,7 +88,7 @@ class ContactHelper:
     def get_contact_list(self):
         if self.contact_cache is None:
             wd = self.app.wd
-            self.app.open_home_page()
+            self.click_on_home_page()
             self.contact_cache = []
             for element in wd.find_elements_by_xpath("//tr[@name='entry']"):
                 cells = element.find_elements_by_css_selector("td")
@@ -93,3 +96,7 @@ class ContactHelper:
                 self.contact_cache.append(Contact(lastname=cells[1].text, firstname=cells[2].text, id=id))
         return list(self.contact_cache)
 
+    def click_on_home_page(self):
+        wd = self.app.wd
+        if not (wd.current_url.endswith("/addressbook/") and len(wd.find_elements_by_name("searchstring")) > 0):
+            wd.find_element_by_link_text("home").click()
