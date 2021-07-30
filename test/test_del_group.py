@@ -1,7 +1,5 @@
 import random
-
 from model.group import Group
-import random
 
 
 def test_delete_some_group(app, db, check_ui):
